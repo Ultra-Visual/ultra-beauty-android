@@ -30,7 +30,6 @@ class CameraViewModel @Inject constructor(private val savedStateHandle: SavedSta
     val preview = _preview as StateFlow<String>
     private lateinit var imageReader: ImageReader
     private lateinit var cameraId: String
-    private lateinit var surfaceView: SurfaceView
 
     private val backgroundHandler: Handler by lazy {
         val handlerThread = HandlerThread("back_camera_thread")
@@ -48,7 +47,6 @@ class CameraViewModel @Inject constructor(private val savedStateHandle: SavedSta
     @SuppressLint("MissingPermission")
     fun openCamera(context: Context, surfaceView: SurfaceView) {
         Log.d(TAG, "openCamera: ")
-        this.surfaceView = surfaceView
         val cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
         for (cameraId in cameraManager.cameraIdList) {
