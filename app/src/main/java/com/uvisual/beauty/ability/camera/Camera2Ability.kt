@@ -43,6 +43,7 @@ internal class Camera2Ability(private val context: Context) : CameraAbility() {
     }
 
     override fun getCameraOrientation(): Int {
+        return 1
     }
 
     override fun hasMultipleCamera(): Boolean = cameraManager.cameraIdList.size > 1
