@@ -12,4 +12,8 @@ open class CameraFilter {
     fun onOutputSizeChanged(width: Int, height: Int) {
         TODO("Not yet implemented")
     }
+
+    fun dispose() {
+        TODO("Not yet implemented")
+    }
 }

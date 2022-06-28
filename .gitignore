@@ -84,3 +84,6 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+cmake-build-debug
+/nativelib/src/main/cpp/cmake-build-debug/

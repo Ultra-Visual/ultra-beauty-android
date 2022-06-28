@@ -10,3 +10,4 @@ rootProject.name = "UltraBeauty"
 include ':app'
 include ':core'
 include ':archi'
+include ':nativelib'

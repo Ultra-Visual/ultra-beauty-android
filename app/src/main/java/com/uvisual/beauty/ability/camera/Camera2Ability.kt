@@ -3,13 +3,10 @@ package com.uvisual.beauty.ability.camera
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.ImageFormat
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraCaptureSession
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
+import android.hardware.camera2.*
 import android.media.ImageReader
 import android.util.Size
+import com.uvisual.beauty.utils.generateNv21Data
 
 internal class Camera2Ability(private val context: Context) : CameraAbility() {
     private var cameraDevice: CameraDevice? = null
@@ -91,6 +88,23 @@ internal class Camera2Ability(private val context: Context) : CameraAbility() {
 
     private fun startCaptureSession() {
         val size = chooseOptimalSize()
+        imageReader = ImageReader.newInstance(size.width, size.height, ImageFormat.JPEG, 1).apply {
+            setOnImageAvailableListener({ reader ->
+                val image = reader.acquireNextImage() ?: return@setOnImageAvailableListener
+                onPreviewFrame?.invoke(image.generateNv21Data(), image.width, image.height)
+                image.close()
+            }, null)
+        }
+
+        try {
+            cameraDevice?.createCaptureSession(
+                listOf(imageReader!!.surface),
+                CaptureStateCallback(),
+                null
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun chooseOptimalSize(): Size {
