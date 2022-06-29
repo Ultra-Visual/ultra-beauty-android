@@ -1,6 +1,10 @@
 package com.uvisual.beauty.ability.camera.filter
 
 open class CameraFilter {
+
+    init {
+        ifNeedInit()
+    }
     fun ifNeedInit() {
 
     }
