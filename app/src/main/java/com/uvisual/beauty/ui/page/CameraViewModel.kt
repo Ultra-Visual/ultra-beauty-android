@@ -1,7 +1,10 @@
 package com.uvisual.beauty.ui.page
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.uvisual.beauty.ability.camera.CameraAbility
+import com.uvisual.beauty.ability.camera.ICameraAbility
 import com.uvisual.beauty.dto.PreviewFrameDto
 import com.uvisual.beauty.repository.CameraRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +18,7 @@ private const val TAG = "CameraViewModel"
 class CameraViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
-    private val cameraRepository: CameraRepository by lazy { CameraRepository() }
+    private lateinit var cameraAbility: ICameraAbility
 
     private val _previewFrame = MutableStateFlow(PreviewFrameDto(byteArrayOf(), 0, 0))
     val previewFrame: StateFlow<PreviewFrameDto> = _previewFrame
@@ -24,14 +26,15 @@ class CameraViewModel @Inject constructor(
     private val _preview = MutableStateFlow("")
     val preview = _preview as StateFlow<String>
 
-    fun createRender(onSurfaceViewCreated: () -> Unit): CameraRender {
-        return cameraRepository.createCameraRender(onSurfaceViewCreated)
+    fun init(context: Context) {
+        cameraAbility = CameraAbility.getInstance(context)
+        cameraAbility.onPreviewFrame = { frame, width, height ->
+            _previewFrame.value = PreviewFrameDto(frame, width, height)
+        }
     }
 
     fun start(width: Int, height: Int) {
-        cameraRepository.open(width, height) {
-            _preview.value = it.timestamp.toString()
-        }
+        cameraAbility.onResume(width, height)
     }
 
 }

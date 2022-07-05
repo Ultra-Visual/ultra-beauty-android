@@ -10,6 +10,6 @@ abstract class CameraAbility : ICameraAbility {
     }
 
 
-    var onPreviewFrame: ((data: ByteArray, width: Int, height: Int) -> Unit)? = null
+    override var onPreviewFrame: ((data: ByteArray, width: Int, height: Int) -> Unit)? = null
 
 }

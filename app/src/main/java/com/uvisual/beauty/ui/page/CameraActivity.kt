@@ -1,7 +1,6 @@
 package com.uvisual.beauty.ui.page
 
 import android.content.Context
-import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
@@ -15,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
 import com.uvisual.archi.BaseActivity
+import com.uvisual.beauty.ability.camera.preview.CameraPreviewView
 import com.uvisual.beauty.ui.theme.UltraBeautyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,6 +40,8 @@ class CameraActivity : BaseActivity() {
                 }
             }
         }
+        cameraViewModel.init(this)
+
     }
 
 }
@@ -48,19 +50,13 @@ class CameraActivity : BaseActivity() {
 private fun CameraPreview(context: Context, vm: CameraViewModel) {
     val text: String by vm.preview.collectAsState("initial")
 
-    val glSurfaceView = remember(context) {
-        val glSurfaceView = GLSurfaceView(context)
-        glSurfaceView.setEGLContextClientVersion(3)
-        val render = vm.createRender {
-            vm.start(glSurfaceView.width, glSurfaceView.height)
-        }
-        glSurfaceView.setRenderer(render)
-        return@remember glSurfaceView
+    val cameraPreviewView = remember(context) {
+        return@remember CameraPreviewView(context)
     }
 
-    AndroidView({ glSurfaceView }) {
+    AndroidView({ cameraPreviewView }) {
         Log.d(TAG, "CameraPreview:")
-        val s = text
-        it.requestRender()
+        val previewFrame = vm.previewFrame.value
+        it.updateFrame(previewFrame.data, previewFrame.width, previewFrame.height)
     }
 }
