@@ -17,6 +17,6 @@ class PreviewAbility(private val context: Context) {
     }
 
     fun updateFrame(frame: ByteArray, width: Int, height: Int) {
-
+        render.onPreviewFrame(frame, width, height)
     }
 }
