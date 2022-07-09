@@ -2,13 +2,16 @@ package com.uvisual.beauty.utils
 
 import android.graphics.ImageFormat
 import android.media.Image
+import android.util.Log
 
+private const val TAG = "ImageExt"
 fun Image.generateNv21Data(): ByteArray {
     val crop = cropRect
     val format = format
     val width = crop.width()
     val height = crop.height()
     val planes = planes
+    Log.d(TAG, "generateNv21Data: width=$width, height=$height, format=$format")
     val data = ByteArray(width * height * ImageFormat.getBitsPerPixel(format) / 8)
     val rowData = ByteArray(planes[0].rowStride)
     var channelOffset = 0

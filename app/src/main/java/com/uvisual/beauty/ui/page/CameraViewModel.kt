@@ -1,6 +1,7 @@
 package com.uvisual.beauty.ui.page
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.uvisual.beauty.ability.camera.CameraAbility

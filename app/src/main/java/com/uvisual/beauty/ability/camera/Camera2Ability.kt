@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.ImageFormat
 import android.hardware.camera2.*
 import android.media.ImageReader
+import android.util.Log
 import android.util.Size
 import com.uvisual.beauty.utils.generateNv21Data
 
@@ -88,9 +89,10 @@ internal class Camera2Ability(private val context: Context) : CameraAbility() {
 
     private fun startCaptureSession() {
         val size = chooseOptimalSize()
-        imageReader = ImageReader.newInstance(size.width, size.height, ImageFormat.JPEG, 1).apply {
+        imageReader = ImageReader.newInstance(size.width, size.height, ImageFormat.YUV_420_888, 1).apply {
             setOnImageAvailableListener({ reader ->
                 val image = reader.acquireNextImage() ?: return@setOnImageAvailableListener
+                Log.d(TAG, "startCaptureSession: width = ${image.width}, height = ${image.height}")
                 onPreviewFrame?.invoke(image.generateNv21Data(), image.width, image.height)
                 image.close()
             }, null)
@@ -127,16 +129,19 @@ internal class Camera2Ability(private val context: Context) : CameraAbility() {
 
     private inner class CaptureStateCallback : CameraCaptureSession.StateCallback() {
         override fun onConfigured(session: CameraCaptureSession) {
-            TODO("Not yet implemented")
+            cameraDevice ?: return
+            captureSession = session
+            val builder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW) ?: return
+            builder.addTarget(imageReader!!.surface)
+            session.setRepeatingRequest(builder.build(), null, null)
         }
 
         override fun onConfigureFailed(session: CameraCaptureSession) {
-            TODO("Not yet implemented")
         }
     }
 
     companion object {
-        private const val TAG = "Camera2Loader"
+        private const val TAG = "Camera2Ability"
 
         private const val PREVIEW_WIDTH = 480
         private const val PREVIEW_HEIGHT = 640

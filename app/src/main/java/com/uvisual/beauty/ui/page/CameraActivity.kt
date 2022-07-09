@@ -15,7 +15,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
 import com.uvisual.archi.BaseActivity
 import com.uvisual.beauty.ability.camera.preview.CameraPreviewView
+import com.uvisual.beauty.dto.PreviewFrameDto
 import com.uvisual.beauty.ui.theme.UltraBeautyTheme
+import com.uvisual.beauty.utils.doOnLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "CameraActivity"
@@ -24,6 +26,10 @@ private const val TAG = "CameraActivity"
 class CameraActivity : BaseActivity() {
     private val cameraViewModel: CameraViewModel by viewModels()
     override fun initViewModel() {
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,15 +54,20 @@ class CameraActivity : BaseActivity() {
 
 @Composable
 private fun CameraPreview(context: Context, vm: CameraViewModel) {
-    val text: String by vm.preview.collectAsState("initial")
-
+    val preview by vm.previewFrame.collectAsState(vm.previewFrame.value)
     val cameraPreviewView = remember(context) {
-        return@remember CameraPreviewView(context)
+        val cameraPreviewView = CameraPreviewView(context)
+        cameraPreviewView.doOnLayout {
+            vm.start(it.width, it.height)
+        }
+        return@remember cameraPreviewView
     }
 
     AndroidView({ cameraPreviewView }) {
         Log.d(TAG, "CameraPreview:")
-        val previewFrame = vm.previewFrame.value
-        it.updateFrame(previewFrame.data, previewFrame.width, previewFrame.height)
+        if (preview.width == 0) {
+            return@AndroidView
+        }
+        it.updateFrame(preview.data, preview.width, preview.height)
     }
 }

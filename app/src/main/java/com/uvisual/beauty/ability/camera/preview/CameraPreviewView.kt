@@ -16,10 +16,12 @@ class CameraPreviewView : FrameLayout {
         PreviewAbility(context)
     }
 
-    private lateinit var surfaceView: View
+    private lateinit var surfaceView: GLSurfaceView
 
     private fun init(context: Context, attrs: AttributeSet?) {
         surfaceView = GLSurfaceView(context, attrs)
+        surfaceView.setEGLContextClientVersion(3)
+        previewAbility.setGlSurfaceView(surfaceView)
         addView(surfaceView)
     }
 
