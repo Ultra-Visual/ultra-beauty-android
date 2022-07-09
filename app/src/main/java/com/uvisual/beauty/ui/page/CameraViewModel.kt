@@ -1,13 +1,11 @@
 package com.uvisual.beauty.ui.page
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.uvisual.beauty.ability.camera.CameraAbility
 import com.uvisual.beauty.ability.camera.ICameraAbility
 import com.uvisual.beauty.dto.PreviewFrameDto
-import com.uvisual.beauty.repository.CameraRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,9 +21,6 @@ class CameraViewModel @Inject constructor(
 
     private val _previewFrame = MutableStateFlow(PreviewFrameDto(byteArrayOf(), 0, 0))
     val previewFrame: StateFlow<PreviewFrameDto> = _previewFrame
-
-    private val _preview = MutableStateFlow("")
-    val preview = _preview as StateFlow<String>
 
     fun init(context: Context) {
         cameraAbility = CameraAbility.getInstance(context)

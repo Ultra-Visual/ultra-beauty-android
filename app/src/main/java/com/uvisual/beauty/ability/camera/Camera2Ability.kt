@@ -115,7 +115,7 @@ internal class Camera2Ability(private val context: Context) : CameraAbility() {
         }
         val cameraId = getCameraId(cameraFacing) ?: return Size(0, 0)
         val outputSizes = cameraManager.getCameraCharacteristics(cameraId)
-            .get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(ImageFormat.YUV_420_888)
+            .get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(ImageFormat.YUV_444_888)
         val orientation = getCameraOrientation()
         val maxPreviewWidth = if (orientation == 90 or 270) viewHeight else viewWidth
         val maxPreviewHeight = if (orientation == 90 or 270) viewWidth else viewHeight
