@@ -55,6 +55,7 @@ class CameraActivity : BaseActivity() {
 @Composable
 private fun CameraPreview(context: Context, vm: CameraViewModel) {
     val preview by vm.previewFrame.collectAsState(vm.previewFrame.value)
+    val rotation by vm.previewRotation.collectAsState(vm.previewRotation.value)
     val cameraPreviewView = remember(context) {
         val cameraPreviewView = CameraPreviewView(context)
         cameraPreviewView.doOnLayout {
@@ -69,5 +70,6 @@ private fun CameraPreview(context: Context, vm: CameraViewModel) {
             return@AndroidView
         }
         it.updateFrame(preview.data, preview.width, preview.height)
+        it.setRotation(rotation)
     }
 }

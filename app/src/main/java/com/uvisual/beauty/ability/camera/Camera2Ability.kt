@@ -1,15 +1,17 @@
 package com.uvisual.beauty.ability.camera
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.ImageFormat
 import android.hardware.camera2.*
 import android.media.ImageReader
 import android.util.Log
 import android.util.Size
+import android.view.Surface
 import com.uvisual.beauty.utils.generateNv21Data
 
-internal class Camera2Ability(private val context: Context) : CameraAbility() {
+internal class Camera2Ability(private val activity: Activity) : CameraAbility() {
     private var cameraDevice: CameraDevice? = null
     private var captureSession: CameraCaptureSession? = null
     private var imageReader: ImageReader? = null
@@ -17,7 +19,7 @@ internal class Camera2Ability(private val context: Context) : CameraAbility() {
     private var viewWidth: Int = 0
     private var viewHeight: Int = 0
     private val cameraManager: CameraManager by lazy {
-        context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        activity.getSystemService(Context.CAMERA_SERVICE) as CameraManager
     }
 
     override fun onResume(width: Int, height: Int) {
@@ -41,7 +43,21 @@ internal class Camera2Ability(private val context: Context) : CameraAbility() {
     }
 
     override fun getCameraOrientation(): Int {
-        return 1
+        val degrees = when (activity.windowManager.defaultDisplay.rotation) {
+            Surface.ROTATION_0 -> 0
+            Surface.ROTATION_90 -> 90
+            Surface.ROTATION_180 -> 180
+            Surface.ROTATION_270 -> 270
+            else -> 0
+        }
+        val cameraId = getCameraId(cameraFacing) ?: return 0
+        val characteristics = cameraManager.getCameraCharacteristics(cameraId)
+        val orientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION) ?: return 0
+        return if (cameraFacing == CameraCharacteristics.LENS_FACING_FRONT) {
+            (orientation + degrees) % 360
+        } else { // back-facing
+            (orientation - degrees) % 360
+        }
     }
 
     override fun hasMultipleCamera(): Boolean = cameraManager.cameraIdList.size > 1

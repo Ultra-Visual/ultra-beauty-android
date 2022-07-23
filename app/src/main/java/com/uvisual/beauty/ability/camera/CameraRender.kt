@@ -130,6 +130,11 @@ class CameraRender : GLSurfaceView.Renderer, GLTextureView.Render {
         surfaceTexture?.updateTexImage()
     }
 
+    fun setRotation(rotation: Rotation) {
+        this.rotation = rotation
+        adjustImageScaling()
+    }
+
     private fun runAll(runOnDraw: Queue<() -> Unit>, lock: ReentrantLock) {
         Log.d(TAG, "runAll: ${runOnDraw.size}")
         lock.withLock {

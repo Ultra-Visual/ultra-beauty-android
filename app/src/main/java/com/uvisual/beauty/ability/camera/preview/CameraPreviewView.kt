@@ -3,8 +3,8 @@ package com.uvisual.beauty.ability.camera.preview
 import android.content.Context
 import android.opengl.GLSurfaceView
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
+import com.uvisual.beauty.ability.camera.Rotation
 
 class CameraPreviewView : FrameLayout {
     constructor(context: Context) : this(context, null)
@@ -27,6 +27,10 @@ class CameraPreviewView : FrameLayout {
 
     fun updateFrame(frame: ByteArray, width: Int, height: Int) {
         previewAbility.updateFrame(frame, width, height)
+    }
+
+    fun setRotation(rotation: Rotation) {
+        previewAbility.setRotation(rotation)
     }
 
 }

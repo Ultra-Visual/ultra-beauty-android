@@ -1,11 +1,11 @@
 package com.uvisual.beauty.ability.camera
 
-import android.content.Context
+import android.app.Activity
 
 abstract class CameraAbility : ICameraAbility {
     companion object {
-        fun getInstance(context: Context): ICameraAbility {
-            return Camera2Ability(context)
+        fun getInstance(activity: Activity): ICameraAbility {
+            return Camera2Ability(activity)
         }
     }
 

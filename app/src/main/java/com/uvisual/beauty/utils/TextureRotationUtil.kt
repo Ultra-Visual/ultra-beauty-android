@@ -31,9 +31,9 @@ object TextureRotationUtil {
 
     fun getRotation(rotation: Rotation, flipHorizontal: Boolean, flipVertical: Boolean): FloatArray {
         var rotatedTex = when (rotation) {
-            Rotation.ROTATE_90 -> TEXTURE_ROTATED_90
-            Rotation.ROTATE_180 -> TEXTURE_ROTATED_180
-            Rotation.ROTATE_270 -> TEXTURE_ROTATED_270
+            Rotation.ROTATION_90 -> TEXTURE_ROTATED_90
+            Rotation.ROTATION_180 -> TEXTURE_ROTATED_180
+            Rotation.ROTATION_270 -> TEXTURE_ROTATED_270
             else -> TEXTURE_NO_ROTATION
         }
         if (flipHorizontal) {
