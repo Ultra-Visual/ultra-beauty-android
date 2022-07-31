@@ -9,6 +9,7 @@ import android.media.ImageReader
 import android.util.Log
 import android.util.Size
 import android.view.Surface
+import androidx.compose.ui.unit.dp
 import com.uvisual.beauty.utils.generateNv21Data
 
 internal class Camera2Ability(private val activity: Activity) : CameraAbility() {
@@ -87,6 +88,7 @@ internal class Camera2Ability(private val activity: Activity) : CameraAbility() 
 
     private inner class CameraDeviceCallback : CameraDevice.StateCallback() {
         override fun onOpened(camera: CameraDevice) {
+            Log.d(TAG, "onOpened: ")
             cameraDevice = camera
             startCaptureSession()
         }
@@ -105,6 +107,7 @@ internal class Camera2Ability(private val activity: Activity) : CameraAbility() 
 
     private fun startCaptureSession() {
         val size = chooseOptimalSize()
+        Log.d(TAG, "startCaptureSession: size = $size")
         imageReader = ImageReader.newInstance(size.width, size.height, ImageFormat.YUV_420_888, 1).apply {
             setOnImageAvailableListener({ reader ->
                 val image = reader.acquireNextImage() ?: return@setOnImageAvailableListener
@@ -130,13 +133,16 @@ internal class Camera2Ability(private val activity: Activity) : CameraAbility() 
             return Size(0, 0)
         }
         val cameraId = getCameraId(cameraFacing) ?: return Size(0, 0)
-        val outputSizes = cameraManager.getCameraCharacteristics(cameraId)
-            .get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(ImageFormat.YUV_444_888)
+        val scalerStreamMap = cameraManager.getCameraCharacteristics(cameraId)
+            .get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+        Log.d(TAG, "chooseOptimalSize: scalerStreamMap = $scalerStreamMap")
+        val outputSizes = scalerStreamMap?.getOutputSizes(ImageFormat.YUV_420_888)
+        Log.d(TAG, "chooseOptimalSize: outputSizes = $outputSizes")
         val orientation = getCameraOrientation()
         val maxPreviewWidth = if (orientation == 90 or 270) viewHeight else viewWidth
         val maxPreviewHeight = if (orientation == 90 or 270) viewWidth else viewHeight
         return outputSizes?.filter {
-            it.width < maxPreviewWidth / 2 && it.height < maxPreviewHeight / 2
+            it.width < maxPreviewWidth && it.height < maxPreviewHeight
         }?.maxByOrNull {
             it.width * it.height
         } ?: Size(PREVIEW_WIDTH, PREVIEW_HEIGHT)
@@ -159,8 +165,8 @@ internal class Camera2Ability(private val activity: Activity) : CameraAbility() 
     companion object {
         private const val TAG = "Camera2Ability"
 
-        private const val PREVIEW_WIDTH = 480
-        private const val PREVIEW_HEIGHT = 640
+        private val PREVIEW_WIDTH = 500.dp.value.toInt()
+        private  val PREVIEW_HEIGHT = 500.dp.value.toInt()
     }
 }
 

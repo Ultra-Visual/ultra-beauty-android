@@ -31,6 +31,7 @@ class CameraRender : GLSurfaceView.Renderer, GLTextureView.Render {
             0.0f, 1.0f,
             1.0f, 1.0f,
             0.0f, 0.0f,
+
             1.0f, 0.0f
         )
 
@@ -110,9 +111,14 @@ class CameraRender : GLSurfaceView.Renderer, GLTextureView.Render {
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
+        Log.d(TAG, "onSurfaceChanged: width = $width, height = $height")
         outputWidth = width
         outputHeight = height
-        GLES30.glViewport(0, 0, width, height)
+        val scale = 768 / 1024.toFloat()
+        val recordHeight = width * scale
+        Log.d(TAG, "onSurfaceChanged: width = $width, h = $recordHeight")
+        val y = (height - recordHeight) / 2
+        GLES30.glViewport(0, y.toInt(), width, recordHeight.toInt())
         GLES30.glUseProgram(filter.getProgram())
         filter.onOutputSizeChanged(width, height)
         adjustImageScaling()

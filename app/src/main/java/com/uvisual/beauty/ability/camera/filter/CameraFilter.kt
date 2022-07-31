@@ -60,11 +60,11 @@ open class CameraFilter(
         // todo check is init
 
         cubeBuffer.position(0)
-        GLES30.glVertexAttribPointer(glAttribPosition, 2, GLES30.GL_FLOAT, false, 0, cubeBuffer)
         GLES30.glEnableVertexAttribArray(glAttribPosition)
+        GLES30.glVertexAttribPointer(glAttribPosition, 2, GLES30.GL_FLOAT, false, 0, cubeBuffer)
         textureBuffer.position(0)
-        GLES30.glVertexAttribPointer(glAttribTextureCoordinate, 2, GLES30.GL_FLOAT, false, 0, textureBuffer)
         GLES30.glEnableVertexAttribArray(glAttribTextureCoordinate)
+        GLES30.glVertexAttribPointer(glAttribTextureCoordinate, 2, GLES30.GL_FLOAT, false, 0, textureBuffer)
         if (textureId != OpenGlUtil.NO_TEXTURE) {
             GLES30.glActiveTexture(GLES30.GL_TEXTURE0)
             GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId)

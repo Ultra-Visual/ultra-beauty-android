@@ -6,12 +6,16 @@ import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.uvisual.archi.BaseActivity
 import com.uvisual.beauty.ability.camera.preview.CameraPreviewView
@@ -59,12 +63,13 @@ private fun CameraPreview(context: Context, vm: CameraViewModel) {
     val cameraPreviewView = remember(context) {
         val cameraPreviewView = CameraPreviewView(context)
         cameraPreviewView.doOnLayout {
+            Log.d(TAG, "CameraPreview: doOnLayout: width = ${it.width}, height = ${it.height}")
             vm.start(it.width, it.height)
         }
         return@remember cameraPreviewView
     }
 
-    AndroidView({ cameraPreviewView }) {
+    AndroidView({ cameraPreviewView }, modifier = Modifier) {
         Log.d(TAG, "CameraPreview:")
         if (preview.width == 0) {
             return@AndroidView
