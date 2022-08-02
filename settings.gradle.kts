@@ -1,3 +1,11 @@
+rootProject.name = "UltraBeauty"
+
+include(
+    ":app",
+    ":core",
+    ":archi",
+    ":nativelib",
+)
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -12,8 +20,3 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "UltraBeauty"
-include ':app'
-include ':core'
-include ':archi'
-include ':nativelib'
