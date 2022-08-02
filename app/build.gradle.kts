@@ -6,12 +6,12 @@ plugins {
 val compose_version: String by rootProject.extra
 
 android {
-    compileSdk = 31
+    compileSdk = AndroidSdk.compile
 
     defaultConfig {
         applicationId = "com.uvisual.beauty"
-        minSdk = 21
-        targetSdk = 31
+        minSdk = AndroidSdk.min
+        targetSdk = AndroidSdk.target
         versionCode = 1
         versionName = "1.0"
 
@@ -57,14 +57,10 @@ dependencies {
     implementation(project(":archi"))
     implementation(project(":nativelib"))
 
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("com.google.android.material:material:1.6.1")
-    implementation("androidx.compose.ui:ui:$compose_version")
-    implementation("androidx.compose.material:material:$compose_version")
-    implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
-    implementation("androidx.activity:activity-compose:1.4.0")
+    compose()
+    android()
+//    implementation("androidx.navigation:navigation-compose:${Versions.navigation}")
+
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")

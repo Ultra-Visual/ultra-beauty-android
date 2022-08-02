@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = AndroidSdk.compile
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 31
+        minSdk = AndroidSdk.min
+        targetSdk = AndroidSdk.target
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
