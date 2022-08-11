@@ -14,3 +14,6 @@ internal fun DependencyHandlerScope.implementation(name: String, version: String
 
 internal fun DependencyHandlerScope.kapt(name: String, version: String? = null) =
     add("kapt", name, version)
+
+internal fun DependencyHandlerScope.annotationProcessor(name: String, version: String? = null) =
+    add("annotationProcessor", name, version)

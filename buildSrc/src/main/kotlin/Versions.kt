@@ -24,4 +24,6 @@ object Versions {
     const val lifecycle = "2.4.0"
     const val coreKtx = "1.7.0"
     const val navigation = "2.5.0"
+
+    const val hilt = "2.42"
 }

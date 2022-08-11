@@ -48,3 +48,8 @@ fun DependencyHandlerScope.kotlinCoroutines() {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android", Versions.Kotlin.coroutines)
 }
 
+fun DependencyHandlerScope.hilt() {
+    api("com.google.dagger:hilt-android", Versions.hilt)
+    annotationProcessor("com.google.dagger:hilt-compiler", Versions.hilt)
+    kapt("com.google.dagger:hilt-android-compiler", Versions.hilt)
+}
