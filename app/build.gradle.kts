@@ -31,13 +31,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Versions.Java.java
+        targetCompatibility = Versions.Java.java
     }
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//        useIR = true
-//    }
+    kotlinOptions {
+        jvmTarget = Versions.Java.jvmTarget
+    }
     buildFeatures {
         compose = true
     }
