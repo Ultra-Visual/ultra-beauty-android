@@ -6,8 +6,6 @@ import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -15,18 +13,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.uvisual.archi.BaseActivity
 import com.uvisual.beauty.ability.camera.preview.CameraPreviewView
-import com.uvisual.beauty.dto.PreviewFrameDto
 import com.uvisual.beauty.ui.theme.UltraBeautyTheme
 import com.uvisual.beauty.utils.doOnLayout
-import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "CameraActivity"
 
-@AndroidEntryPoint
 class CameraActivity : BaseActivity() {
     private val cameraViewModel: CameraViewModel by viewModels()
     override fun initViewModel() {

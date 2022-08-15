@@ -1,19 +1,31 @@
-import org.gradle.kotlin.dsl.DependencyHandlerScope
+import org.gradle.api.artifacts.dsl.DependencyHandler
 
-internal fun DependencyHandlerScope.add(
+internal fun DependencyHandler.add(
     configurationName: String,
     name: String,
     version: String? = null
 ) = add(configurationName, "$name${if (version != null) ":$version" else ""}")
 
-internal fun DependencyHandlerScope.api(name: String, version: String? = null) =
+internal fun DependencyHandler.api(name: String, version: String? = null) =
     add("api", name, version)
 
-internal fun DependencyHandlerScope.implementation(name: String, version: String? = null) =
+internal fun DependencyHandler.implementation(name: String, version: String? = null) =
     add("implementation", name, version)
 
-internal fun DependencyHandlerScope.kapt(name: String, version: String? = null) =
+internal fun DependencyHandler.kapt(name: String, version: String? = null) =
     add("kapt", name, version)
 
-internal fun DependencyHandlerScope.annotationProcessor(name: String, version: String? = null) =
+internal fun DependencyHandler.annotationProcessor(name: String, version: String? = null) =
     add("annotationProcessor", name, version)
+
+internal fun DependencyHandler.testRuntimeOnly(name: String, version: String? = null) =
+    add("testRuntimeOnly", name, version)
+
+internal fun DependencyHandler.testImplementation(name: String, version: String? = null) =
+    add("testImplementation", name, version)
+
+internal fun DependencyHandler.androidTestImplementation(name: String, version: String? = null) =
+    add("androidTestImplementation", name, version)
+
+internal fun DependencyHandler.debugImplementation(name: String, version: String? = null) =
+    add("debugImplementation", name, version)

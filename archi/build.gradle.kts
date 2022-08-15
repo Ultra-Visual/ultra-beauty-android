@@ -26,25 +26,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Versions.Java.java
+        targetCompatibility = Versions.Java.java
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Versions.Java.jvmTarget
     }
 }
 
 dependencies {
 
-    api("com.google.dagger:hilt-android:2.42")
-    annotationProcessor("com.google.dagger:hilt-compiler:2.42")
-//    kapt "com.google.dagger:hilt-android-compiler:2.42"
-//    kapt "androidx.hilt:hilt-compiler:1.0.0"
-
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("com.google.android.material:material:1.6.1")
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    compose()
+    android()
+    androidTest()
 }

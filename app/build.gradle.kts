@@ -3,8 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-val compose_version: String by rootProject.extra
-
 android {
     compileSdk = AndroidSdk.compile
 
@@ -41,8 +39,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = compose_version
-        kotlinCompilerVersion = "1.5.10"
+        kotlinCompilerExtensionVersion = Versions.compose
     }
     packagingOptions {
         resources {
@@ -58,11 +55,5 @@ dependencies {
 
     compose()
     android()
-//    implementation("androidx.navigation:navigation-compose:${Versions.navigation}")
-
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
-    debugImplementation("androidx.compose.ui:ui-tooling:$compose_version")
+    androidTest()
 }

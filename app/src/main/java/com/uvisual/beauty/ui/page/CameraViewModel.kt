@@ -7,15 +7,12 @@ import com.uvisual.beauty.ability.camera.CameraAbility
 import com.uvisual.beauty.ability.camera.ICameraAbility
 import com.uvisual.beauty.ability.camera.Rotation
 import com.uvisual.beauty.dto.PreviewFrameDto
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
 private const val TAG = "CameraViewModel"
 
-@HiltViewModel
-class CameraViewModel @Inject constructor(
+class CameraViewModel constructor(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private lateinit var cameraAbility: ICameraAbility
