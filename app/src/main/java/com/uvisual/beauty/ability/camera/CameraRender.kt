@@ -7,6 +7,7 @@ import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import android.util.Log
 import com.uvisual.beauty.ability.camera.filter.CameraFilter
+import com.uvisual.beauty.ability.camera.filter.ContrastFilter
 import com.uvisual.beauty.nativelib.YuvDecoder
 import com.uvisual.beauty.utils.OpenGlUtil
 import com.uvisual.beauty.utils.TextureRotationUtil

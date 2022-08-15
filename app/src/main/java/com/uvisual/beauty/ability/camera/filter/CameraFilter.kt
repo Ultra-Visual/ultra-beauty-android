@@ -13,7 +13,11 @@ open class CameraFilter(
 //    private val vertex: String = ResReadUtil.read(R.raw.vertex_camera_shader),
 //    private val fragment: String = ResReadUtil.read(R.raw.fragment_camera_shader)
 ) {
-    private var glProgram: Int = 0
+    protected var glProgram: Int = 0
+        get() {
+            Log.d(TAG, "getglProgram: $field")
+            return field
+        }
     private var glAttribPosition = 0
     private var glUniformTexture = 0
     private var glAttribTextureCoordinate = 0
@@ -23,24 +27,36 @@ open class CameraFilter(
 
     private val runOnDraw: LinkedList<() -> Unit> = LinkedList()
 
+    private var isInitialized = false
+
     init {
         ifNeedInit()
     }
 
     fun ifNeedInit() {
-        init()
+//        if (!isInitialized) {
+            init()
+//        }
     }
 
-    fun init() {
+    private fun init() {
         onInit()
+        onInitialized()
     }
 
-    fun onInit() {
+    open fun onInitialized() {
+
+    }
+
+    open fun onInit() {
         Log.d(TAG, "onInit: ")
         glProgram = OpenGlUtil.loadProgram(vertex, fragment)
+        Log.d(TAG, "onInit: loadProgram: $fragment")
+        Log.d(TAG, "onInit: loadProgram. $glProgram")
         glAttribPosition = GLES30.glGetAttribLocation(glProgram, "position")
         glUniformTexture = GLES30.glGetUniformLocation(glProgram, "inputImageTexture")
         glAttribTextureCoordinate = GLES30.glGetAttribLocation(glProgram, "inputTextureCoordinate")
+        isInitialized = true
     }
 
     fun getProgram(): Int {
@@ -51,6 +67,18 @@ open class CameraFilter(
     fun onOutputSizeChanged(width: Int, height: Int) {
         outputWidth = width
         outputHeight = height
+    }
+
+    protected fun setFloat(location: Int, float: Float) {
+        runOnDraw {
+            Log.d(TAG, "setFloat: location = $location, float = $float")
+            GLES30.glUniform1f(location, float)
+        }
+    }
+
+    @Synchronized
+    protected fun runOnDraw(runnable: () -> Unit) {
+        runOnDraw.add(runnable)
     }
 
     fun onDraw(textureId: Int, cubeBuffer: FloatBuffer, textureBuffer: FloatBuffer) {
@@ -88,6 +116,12 @@ open class CameraFilter(
     }
 
     fun dispose() {
+        isInitialized = false
+        GLES30.glDeleteProgram(glProgram)
+        onDispose()
+    }
+
+    fun onDispose() {
     }
 
     companion object {
