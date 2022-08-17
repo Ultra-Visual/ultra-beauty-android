@@ -1,6 +1,6 @@
 varying highp vec2 textureCoordinate;
-
 uniform sampler2D inputImageTexture;
+
 uniform lowp float contrast;
 
 void main() {
