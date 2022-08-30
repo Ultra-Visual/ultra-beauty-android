@@ -20,6 +20,9 @@ class CameraViewModel constructor(
     private val _previewFrame = MutableStateFlow(PreviewFrameDto(byteArrayOf(), 0, 0))
     val previewFrame: StateFlow<PreviewFrameDto> = _previewFrame
 
+    private val _filterStrength = MutableStateFlow(0.5f)
+    val filterStrength: StateFlow<Float> = _filterStrength
+
     private val _previewRotation = MutableStateFlow(Rotation.NORMAL)
     val previewRotation: StateFlow<Rotation> = _previewRotation
 
@@ -33,6 +36,10 @@ class CameraViewModel constructor(
 
     fun start(width: Int, height: Int) {
         cameraAbility.onResume(width, height)
+    }
+
+    fun onFilterStrengthChanged(): (Float) -> Unit = {
+        _filterStrength.value = it
     }
 
     private fun getRotation(orientation: Int): Rotation = when (orientation) {

@@ -51,6 +51,7 @@ android {
 dependencies {
 
     implementation(project(":archi"))
+    implementation(project(":core"))
     implementation(project(":nativelib"))
 
     compose()
