@@ -32,6 +32,7 @@ android {
     kotlinOptions {
         jvmTarget = Versions.Java.jvmTarget
     }
+    namespace = "com.uvisual.archi"
 }
 
 dependencies {

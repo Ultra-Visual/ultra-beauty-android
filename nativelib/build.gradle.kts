@@ -41,6 +41,7 @@ android {
     kotlinOptions {
         jvmTarget = Versions.Java.jvmTarget
     }
+    namespace = "com.uvisual.beauty.nativelib"
 }
 
 dependencies {
